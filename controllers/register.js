@@ -30,6 +30,13 @@ const handleRegister = (req, res, db, bcrypt) => {
       })
       .then(trx.commit)
       .catch(trx.rollback);
+  }).catch((err)=>{
+    if (err.code == '23505') {
+      res.status(409).json("Email already exists");
+    } else {
+      console.log(err);
+      res.status(500).json("Unexpected server error has happened.")
+    }    
   });
 };
 

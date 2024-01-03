@@ -25,7 +25,8 @@ const handleSignin = (req, res, db, bcrypt) => {
       }
     })
     .catch((err) => {
-      res.status(400).json("wrong credentials");
+      console.log(err);
+      res.status(500).json("Unexpected server error has happened.");
     });
 };
 
