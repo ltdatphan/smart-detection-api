@@ -12,14 +12,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^3.0.2"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
     "clarifai": "^2.9.1",
+    "clarifai-nodejs-grpc": "^9.11.5",
     "cors": "^2.8.5",
-    "express": "^4.17.3",
-    "knex": "^1.0.3",
-    "pg": "^8.7.3"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "knex": "^3.1.0",
+    "pg": "^8.11.3"
   }
 }

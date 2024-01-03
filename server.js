@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
@@ -6,20 +7,48 @@ const e = require("express");
 
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
-const profile = require("./controllers/profile");
+// const profile = require("./controllers/profile");
 const image = require("./controllers/image");
 const detect = require("./controllers/detect");
 
-const db = knex({
-  client: "pg",
-  connection: {
-    host: "127.0.0.1",
-    port: 5432,
-    user: "postgres",
-    password: "your password here",
-    database: "smart-detection-db",
-  },
-});
+let config;
+
+if (process.env.ENV == 'PROD')
+  config = {
+    client: "pg",
+    connection: {
+      host: process.env.PROD_DB_HOST,
+      port: 5432,
+      user: process.env.PROD_DB_USER,
+      password: process.env.PROD_DB_PASSWORD,
+      database: process.env.PROD_DB_DATABASE,
+    },
+  }
+else {
+  config = {
+    client: "pg",
+    connection: {
+      host: process.env.DEV_DB_HOST,
+      port: 5432,
+      user: process.env.DEV_DB_USER,
+      password: process.env.DEV_DB_PASSWORD,
+      database: process.env.DEV_DB_DATABASE,
+    },
+  }
+}
+
+// const db = knex({
+//   client: "pg",
+//   connection: {
+//     host: "127.0.0.1",
+//     port: 5432,
+//     user: "postgres",
+//     password: "your password here",
+//     database: "smart-detection-db",
+//   },
+// });
+
+const db = knex(config)
 
 const app = express();
 
@@ -38,9 +67,9 @@ app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
 
-app.get("/profile/:id", (req, res) => {
-  profile.handleProfileGet(req, res, db);
-});
+// app.get("/profile/:id", (req, res) => {
+//   profile.handleProfileGet(req, res, db);
+// });
 
 app.put("/image", (req, res) => {
   image.handleImagePut(req, res, db);
